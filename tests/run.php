@@ -32,4 +32,15 @@ rejects(function () use ($client, $payload) { $client->createOrder($payload); })
 $payload['amount'] = '19.90';
 $payload['request_id'] = 'bad id';
 rejects(function () use ($client, $payload) { $client->createOrder($payload); });
+$payload['request_id'] = 'trx-offline-check';
+$payload['payment_method'] = 'TRX_TRON';
+$offlineClient = new \MochiPay\Client('fixture-key', 'fixture-secret', 'https://127.0.0.1:1', 1);
+try {
+    $offlineClient->createOrder($payload);
+    throw new \RuntimeException('Unexpected local transport success.');
+} catch (\MochiPay\ApiException $e) {
+    check(strpos($e->getMessage(), 'Transport failed') !== false, 'Native TRX passes payment-method validation');
+}
+$payload['payment_method'] = 'TRX_TRC20';
+rejects(function () use ($client, $payload) { $client->createOrder($payload); });
 echo "Offline checks passed. No live API calls were made.\n";

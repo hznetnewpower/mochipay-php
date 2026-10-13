@@ -6,7 +6,7 @@ Requires PHP 7.4 or newer with cURL, JSON, hash and ctype extensions. Package so
 
 ## Installation
 
-After this package has been published to Packagist:
+Install the published package from Packagist:
 
 ```sh
 composer require mochipay/php-sdk
@@ -38,7 +38,7 @@ $status = $client->queryOrder($order['order_id']);
 $hppUrl = $client->validatedPaymentUrl($order);
 ```
 
-Use decimal **strings**, never floats. All JSON numeric response tokens are returned as strings, so money is preserved exactly; booleans remain booleans. Scientific notation remains unchanged and must be handled with decimal arithmetic when comparing values. Supported methods: USDT_TRC20, USDC_ERC20, BTC_BITCOIN, ETH_ERC20, SOL_SOLANA. Enable only methods configured for your account. The SDK's 18-place input limit is a client envelope; actual allowed amount/precision depends on the API currency and method.
+Use decimal **strings**, never floats. All JSON numeric response tokens are returned as strings, so money is preserved exactly; booleans remain booleans. Scientific notation remains unchanged and must be handled with decimal arithmetic when comparing values. Supported methods: USDT_TRC20, USDC_ERC20, BTC_BITCOIN, ETH_ERC20, SOL_SOLANA, TRX_TRON. Native TRX (`TRX_TRON`) and USDT on TRON (`USDT_TRC20`) are different assets. Enable only methods configured for your account. The SDK's 18-place input limit is a client envelope; actual allowed amount/precision depends on the API currency and method.
 
 Optional `notify_url` and `redirect_url` must be merchant HTTPS endpoints. ON_SITE and HPP use the same created order. Do not send `payment_mode`. ON_SITE renders a local checkout from a minimal payment DTO. HPP uses the validated URL with a 303 redirect. Always authenticate customer ownership before displaying checkout or status.
 
@@ -50,7 +50,7 @@ There are no automatic retries. Save a stable `request_id` (1–64 ASCII letters
 
 ## Returns, callbacks and fulfillment
 
-Incoming callbacks and browser returns only trigger an authenticated `queryOrder` call. They never prove payment. Before fulfilling, compare query results against your immutable local order binding: order ID, merchant reference, original currency and amount, receiving address and method/network (`wallet_type` + `_` + `network` in query results). Require `PAID` and exact decimal equality of `received_amount` and `pay_amount`. Handle underpaid, overpaid, expired and inconsistent orders through review. Use a database transaction and unique fulfillment constraint to fulfill exactly once. A closed browser must not stop backend callback handling.
+Incoming callbacks and browser returns only trigger an authenticated `queryOrder` call. They never prove payment. Before fulfilling, compare query results against your immutable local order binding: order ID, merchant reference, original currency and amount, receiving address and method/network (`wallet_type` + `_` + `network` in query results). Require `PAID` and a positive `received_amount`. Require exact decimal equality with `pay_amount`, unless the authenticated query returns the strict Boolean `manual_payment_accepted === true` after a merchant's audited confirmation. A callback field, browser field, string `"true"`, number `1`, or `PAID` alone does not authorize a mismatch. Handle underpaid, overpaid, expired and inconsistent orders through review. Use a database transaction and unique fulfillment constraint to fulfill exactly once. A closed browser must not stop backend callback handling.
 
 TLS certificate and hostname verification are enabled; redirects are disabled for authenticated API calls. Keep API credentials on your backend, never in JavaScript/mobile code. Store attempts durably and apply your application's account authorization and rate limiting.
 

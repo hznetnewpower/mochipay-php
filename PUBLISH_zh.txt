@@ -1,13 +1,10 @@
-MochiPay PHP SDK 1.0.0 发布步骤
+MochiPay PHP SDK 1.0.1 发布步骤
 
-1. 新建 GitHub 公开仓库，名称 mochipay-php；不要勾选自动创建 README、.gitignore 或 License，这些文件已经包含在本包中。
-2. 解压 ZIP，进入 mochipay-php 文件夹，将文件和 src、examples、tests、.github 目录上传到仓库根目录。composer.json 必须直接位于仓库根目录，不能再套一层 mochipay-php，也不能只上传 ZIP。
-3. GitHub 网页上传时注意 .github/.gitignore 是隐藏路径，浏览器上传可能遗漏。可以在仓库 Add file > Create new file 中创建 .github/workflows/checks.yml，复制包内同名文件全文；.gitignore 也可单独创建。
-4. 查看 Actions > PHP SDK checks，等待 PHP 7.4 和 8.4 两项检查通过。如失败，将错误日志发回来修复，先不要发布版本。
-5. 打开 Releases > Draft a new release，创建标签 v1.0.0，目标选 main，标题 MochiPay PHP SDK 1.0.0，再发布。
-6. Packagist 的 Submit package 页面填 https://github.com/hznetnewpower/mochipay-php，点击 Check，核对包名 mochipay/php-sdk 后确认提交。若命名已被占用，需要调整 composer.json 并重新发布，不能照填。
-7. 上架后检查显示 1.0.0。配置 GitHub 自动更新/Webhook，后续新标签自动同步。不要在聊天或公开仓库粘贴 Packagist API token。
+1. 将本次 README.md、src/Client.php 和 tests/run.php 的改动提交到 https://github.com/hznetnewpower/mochipay-php 的 main 分支。
+2. 等待 GitHub Actions 的 PHP SDK checks 通过，再创建并推送 v1.0.1 标签；标签必须指向通过检查的提交。
+3. 在 GitHub Releases 使用 v1.0.1 标签发布 “MochiPay PHP SDK 1.0.1”。
+4. Packagist 已有 mochipay/php-sdk，等待自动更新后确认页面出现 1.0.1；若没有更新，登录原包管理页面手动执行 Update。
 
-本包是后端 SDK；不会自动履约，也不含支付弹窗或平台源码。密钥保存在应用服务器环境变量中。SDK开源免费，MochiPay外部服务需要有效订阅。
+这次增加原生 TRX_TRON 方法；它与 USDT_TRC20 是不同资产。README 同步说明人工确认差额付款时必须以认证查询返回的严格布尔值为准。
 
-已完成本地 PHP 7.4 语法解析、Composer JSON结构检查和ZIP完整性检查。当前环境无PHP/Composer运行程序；离线运行测试和composer validate --strict需要通过步骤4的GitHub Actions确认。未调用真实API或创建订单。
+本地已通过 PHP 7.4 离线检查和语法检查。尚未调用真实 API 或创建订单。不得将 API 密钥、订阅数据或生产配置提交到公开仓库。

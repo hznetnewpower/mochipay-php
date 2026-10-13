@@ -46,7 +46,7 @@ final class Client
         if (!preg_match('/^(?:0|[1-9][0-9]*)(?:\.[0-9]{1,18})?$/D', $payload['amount']) || !preg_match('/[1-9]/', $payload['amount'])) {
             throw new \InvalidArgumentException('Amount must be a positive decimal string with at most 18 decimal places.');
         }
-        if (!in_array($payload['payment_method'], array('USDT_TRC20', 'USDC_ERC20', 'BTC_BITCOIN', 'ETH_ERC20', 'SOL_SOLANA'), true)) {
+        if (!in_array($payload['payment_method'], array('USDT_TRC20', 'USDC_ERC20', 'BTC_BITCOIN', 'ETH_ERC20', 'SOL_SOLANA', 'TRX_TRON'), true)) {
             throw new \InvalidArgumentException('Unsupported payment method.');
         }
         if (array_key_exists('payment_mode', $payload)) {
