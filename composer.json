@@ -1,12 +1,33 @@
 {
     "name": "mochipay/php-sdk",
-    "description": "PHP client for the MochiPay crypto payment order API.",
+    "description": "Server-side PHP client for MochiPay crypto payments, independent request retries and verified order queries.",
     "type": "library",
     "license": "MIT",
     "homepage": "https://mochi.bz/",
-    "keywords": ["mochipay", "payments", "crypto", "checkout"],
-    "require": {"php": ">=7.4", "ext-curl": "*", "ext-json": "*", "ext-hash": "*", "ext-ctype": "*"},
-    "autoload": {"psr-4": {"MochiPay\\": "src/"}},
-    "scripts": {"test": "php tests/run.php"},
-    "support": {"docs": "https://mochi.bz/Developers/Reference.aspx"}
+    "keywords": [
+        "mochipay",
+        "payments",
+        "crypto",
+        "checkout",
+        "payment-gateway",
+        "api"
+    ],
+    "require": {
+        "php": ">=7.4",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-hash": "*",
+        "ext-ctype": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "MochiPay\\": "src/"
+        }
+    },
+    "scripts": {
+        "test": "php tests/run.php"
+    },
+    "support": {
+        "docs": "https://mochi.bz/Developers/Reference.aspx"
+    }
 }
