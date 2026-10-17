@@ -2,7 +2,7 @@
 
 A small server-side PHP client for the MochiPay payment order API. Customer payments go directly to the merchant receiving wallet. MochiPay monitors payments and sends notifications.
 
-Requires PHP 7.4 or newer with cURL, JSON, hash and ctype extensions. Package source is MIT licensed. The external MochiPay service requires an account and an active subscription; current service pricing is $19.90/month. SDK functions are not license locked.
+Requires PHP 7.4 or newer with cURL, JSON, hash and ctype extensions. Package source is MIT licensed. The external MochiPay service requires an account and an active subscription; service subscriptions start at $19.90/month. SDK functions are not license locked.
 
 ## Installation
 
@@ -71,3 +71,10 @@ Offline tests cover exact-byte signing, precision-preserving decoding, invalid i
 - [Free integration Skill](https://mochi.bz/Developers/Skill.aspx)
 - [Terms](https://mochi.bz/Terms.aspx)
 - [Privacy](https://mochi.bz/Privacy.aspx)
+
+
+## Checkout display and current server fields
+
+The API adds expires_at_utc and server_time_utc while retaining expires_at. The client preserves these response strings unchanged. Derive remaining time from the original deadline and server time plus elapsed time; do not restart60minutes on browser refresh. Keep exact pay_amount digits. A QR scan, clipboard event or browser return does not authorize fulfillment. Native ON_SITE examples now provide a compact QR-first checkout, asset icons, visible localized copy confirmation and expired QR/address masks.
+
+Developer tools include the local stdio MCP server and the Chrome payment assistant, which is distributed as a ZIP for manual desktop installation. Their current1.0.7 code does not require changes for this presentation update. Use [current integration sources](https://github.com/hznetnewpower/mochipay-plugins) and their platform-specific Release Assets. The SDK remains independent of frontend CSS/JavaScript.
